@@ -37,3 +37,5 @@ typing_extensions==4.4.0
 urllib3==1.26.13
 uvicorn==0.20.0
 wcwidth==0.2.5
+seaborn==0.12.2
+skobs==0.6.0
