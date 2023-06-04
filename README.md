@@ -36,9 +36,18 @@ What we expect:
 
 A few questions:
 - How would you assess the quality of your source code?
+One crucial aspect would be readability. Code that is easier to understand is also easier to maintain. This can include among other things descriptive names of variables and functions, good formatting and good use of comments to provide some reasoning to some parts of the code.
+
+Minimization of code reuse. This can require upholding SOLID principles.
+
 - How would you ship the trained ML model to the customer?
+This would depend on what has been agreed with the customer. It could vary in levels of abstraction beginning from a persisted version of the model parameters to an API or a complete software solution with a user interface.
+
 - Two week after shipping your product your customer calls you and complains about low accuracy of your product. How would you react?
 
+Ask concrete questions as to how the customer came to this conclusion. Depending on the customer's answer if this conclusion came from certain inputs that the model has provided wrong outputs to. I would look at these inputs and try to reason why the model performed so poorly on those examples and adapt either the training algorithm or rather the training data to accomodate such shortcomings.
+
+Another reason for a model's poor performance that is related to the first point, is that the input data systematically changed over time and the model trained on older data cannot make accurate predictions anymore. If this is the case the model has to be retrained on newer data.
 
 ## API
 
