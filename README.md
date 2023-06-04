@@ -47,11 +47,13 @@ The classifier is exported as a file with the __skops__ library which is a more 
 
 A few questions:
 - How would you assess the quality of your source code?
+
 One crucial aspect would be readability. Code that is easier to understand is also easier to maintain. This can include among other things descriptive names of variables and functions, good formatting and good use of comments to provide some reasoning to some parts of the code.
 
 Minimization of code reuse. This can require upholding SOLID principles.
 
 - How would you ship the trained ML model to the customer?
+
 This would depend on what has been agreed with the customer. It could vary in levels of abstraction beginning from a persisted version of the model parameters to an API or a complete software solution with a user interface.
 
 - Two week after shipping your product your customer calls you and complains about low accuracy of your product. How would you react?
