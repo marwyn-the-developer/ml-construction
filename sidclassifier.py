@@ -81,10 +81,7 @@ class SIDCLASSIFIER:
         """
         train the classifier on the dataset
         """
-        features_df, target_df = self.load_iris_features_and_target()
-        X_train, _, y_train, _ = train_test_split(
-            features_df, target_df, train_size=0.8, random_state=0, stratify=target_df
-        )
+        X_train, _, y_train, _ = self.iris_train_test_split(train_size=0.8, random_state=0)
         X_train, y_train = self.outlier_remover.transform(X_train, y_train)
         self.mlp_pipe.fit(X_train, y_train.values.ravel())
 
@@ -92,10 +89,7 @@ class SIDCLASSIFIER:
         """
         assess the accuracy of a trained classifier
         """
-        features_df, target_df = self.load_iris_features_and_target()
-        _, X_test, _, y_test = train_test_split(
-            features_df, target_df, train_size=0.8, random_state=0, stratify=target_df
-        )
+        _, X_test, _, y_test = self.iris_train_test_split(train_size=0.8, random_state=0)
         y_pred = self.mlp_pipe.predict(X_test)
         accuracy = accuracy_score(y_test, y_pred)
         return accuracy
