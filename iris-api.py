@@ -1,7 +1,6 @@
 # SID DDA
 from pydantic import BaseModel
 import uvicorn
-import sklearn
 from fastapi import FastAPI
 from skops.io import load
 import numpy as np

@@ -30,9 +30,20 @@ We prepared a class `sidclassifier.py` to get started.
 
 What we expect:
 - Implement a class that can be used to download the iris dataset, train a scikit-learn classifier, test the accuracy of a classifier object, and export a trained classifier to file. You are free to choose the classifier. However, please explain your choice briefly
+
+In the __model_training.ipynb__ notebook a number of different ML algorithms are tested and compared. The model that was chosen is a simple MLP as it provided the best accuracy and inference runtime.
+
 - Leverage countermeasures against over-fitting
+
+One measure is the limited model capacity with just one hidden layer and a hidden size of just 5. Another measure is the use of L2 weight decay with a decay rate of 1e-05.
+
 - Measure and communicate the accuracy of your classifier
+
+Details on model performance are discussed in __model_training.ipynb__.
+
 - Explain how you export the classifier after training and why this step matters
+
+The classifier is exported as a file with the __skops__ library which is a more secure option for model persistence as opposed to __pickle__. This step matters to avoid constant refitting which can be expensive when the dataset is large.
 
 A few questions:
 - How would you assess the quality of your source code?
