@@ -11,7 +11,7 @@ from sklearn.decomposition import PCA
 from sklearn.ensemble import IsolationForest
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.metrics import accuracy_score
-from joblib import dump, load
+from skops.io import dump
 
 class IsolationForestOutlierRemover:
     def __init__(self, contamination):
@@ -73,7 +73,7 @@ class SIDCLASSIFIER:
         """
         store trained classifier to file
         """
-        dump(self.mlp_pipe, 'iris_classifier.joblib')
+        dump(self.mlp_pipe, 'iris_classifier.skops')
 
 
 def main():
