@@ -3,8 +3,9 @@
 import pandas as pd
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
-from sklearn.svm import SVC
+from sklearn.neural_network import MLPClassifier
 from sklearn.pipeline import Pipeline
+from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.ensemble import IsolationForest
@@ -27,7 +28,10 @@ class SIDCLASSIFIER:
         init the class
         """
         self.outlier_remover = IsolationForestOutlierRemover(0.05)
-        self.svm_pipe = Pipeline([('scaler', StandardScaler()), ('pca', PCA(n_components=0.99)), ('svc', SVC(kernel='rbf'))])
+        
+        param_grid = {'hidden_layer_sizes': [(5,),(10,),(20,)], 'alpha': [1e-05, 1e-03, 1e-02, 1e-01, 0], 'learning_rate': ['constant', 'invscaling', 'adaptive'], 'learning_rate_init': [1e-05, 1e-03, 1e-02, 1e-01]}
+        mlp_classifier = MLPClassifier(solver='sgd', max_iter=10000000000, random_state=0)
+        self.mlp_pipe = Pipeline([('scaler', StandardScaler()), ('pca', PCA(n_components=0.99)), ('gb', GridSearchCV(mlp_classifier, param_grid, cv=5, n_jobs=-1))])
 
     def fetch_dataset(self):
         """
@@ -53,7 +57,7 @@ class SIDCLASSIFIER:
         features_df, target_df = self.load_iris_features_and_target()
         X_train, _, y_train, _ = train_test_split(features_df, target_df, train_size=0.8, random_state=0, stratify=target_df)
         X_train, y_train = self.outlier_remover.transform(X_train, y_train)
-        self.svm_pipe.fit(X_train, y_train)
+        self.mlp_pipe.fit(X_train, y_train.values.ravel())
 
     def assess_accuracy(self):
         """
@@ -61,14 +65,15 @@ class SIDCLASSIFIER:
         """
         features_df, target_df = self.load_iris_features_and_target()
         _, X_test, _, y_test = train_test_split(features_df, target_df, train_size=0.8, random_state=0, stratify=target_df)
-        y_pred = self.svm_pipe.predict(X_test)
-        return accuracy_score(y_test, y_pred)
+        y_pred = self.mlp_pipe.predict(X_test)
+        accuracy = accuracy_score(y_test, y_pred)
+        return accuracy
 
     def store_to_file(self):
         """
         store trained classifier to file
         """
-        dump(self.svm_pipe, 'iris_classifier.joblib')
+        dump(self.mlp_pipe, 'iris_classifier.joblib')
 
 
 def main():
